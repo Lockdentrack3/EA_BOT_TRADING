@@ -1,0 +1,81 @@
+version: "3.9"
+
+services:
+
+  # ---- FastAPI Backend ----
+  api:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: ea_bot_api
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../logs:/app/logs
+      - ../database:/app/database
+      - ../backtest:/app/backtest
+      - ../.env:/app/.env:ro
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8000
+      - DATABASE_URL=sqlite+aiosqlite:///./database/ea_bot.db
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - ea_net
+
+  # ---- PostgreSQL (optional, replace SQLite) ----
+  postgres:
+    image: postgres:15-alpine
+    container_name: ea_bot_postgres
+    restart: unless-stopped
+    profiles: ["postgres"]   # Activate with: docker compose --profile postgres up
+    environment:
+      POSTGRES_DB:       ea_bot
+      POSTGRES_USER:     ea_user
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - ea_net
+
+  # ---- Redis (optional: for caching & pub/sub) ----
+  redis:
+    image: redis:7-alpine
+    container_name: ea_bot_redis
+    restart: unless-stopped
+    profiles: ["cache"]
+    ports:
+      - "6379:6379"
+    networks:
+      - ea_net
+
+  # ---- Nginx Reverse Proxy ----
+  nginx:
+    image: nginx:alpine
+    container_name: ea_bot_nginx
+    restart: unless-stopped
+    profiles: ["prod"]
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - api
+    networks:
+      - ea_net
+
+volumes:
+  pg_data:
+
+networks:
+  ea_net:
+    driver: bridge
