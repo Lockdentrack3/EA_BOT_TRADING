@@ -3,7 +3,7 @@
 ### 1. Clone & Setup Environment
 
 ```bash
-git clone <your-repo> EA_BOT_TRADING
+git clone https://github.com/Lockdentrack3/EA_BOT_TRADING
 cd EA_BOT_TRADING
 
 # Create virtual environment
