@@ -1,4 +1,4 @@
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Clone & Setup Environment
 
@@ -59,7 +59,7 @@ app.run_polling()
 
 ---
 
-## 🐳 Docker Deployment
+## Docker Deployment
 
 ```bash
 cd docker
@@ -76,7 +76,7 @@ docker compose logs -f api
 
 ---
 
-## 📊 Backtesting
+## Backtesting
 
 ```python
 import pandas as pd
@@ -119,7 +119,7 @@ print(f"Ruin Probability: {mc_result['ruin_probability']}%")
 
 ---
 
-## 📈 API Endpoints
+## API Endpoints
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
@@ -138,7 +138,7 @@ Full interactive docs: `http://localhost:8000/docs`
 
 ---
 
-## 🤖 Telegram Commands
+## Telegram Commands
 
 | Command | Description |
 |---------|-------------|
@@ -153,7 +153,7 @@ Full interactive docs: `http://localhost:8000/docs`
 
 ---
 
-## ⚙️ Risk Parameters
+## Risk Parameters
 
 | Parameter | Default | Description |
 |-----------|---------|-------------|
@@ -166,7 +166,7 @@ Full interactive docs: `http://localhost:8000/docs`
 
 ---
 
-## 🔒 Security Checklist
+## Security Checklist
 
 - [ ] Change `SECRET_KEY` in `.env` (64 random chars minimum)
 - [ ] Never commit `.env` to git (it's in `.gitignore`)
@@ -180,7 +180,7 @@ Full interactive docs: `http://localhost:8000/docs`
 
 ---
 
-## 🔬 AI Upgrade Roadmap
+## AI Upgrade Roadmap
 
 ### Phase 1 — Current (v2.0)
 - Multi-factor scoring (Trend + Momentum + Volume + Liquidity + Volatility)
